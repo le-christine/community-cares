@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,6 +37,27 @@ public class User {
     private List<Resources> resources;
 
     public User() { }
+
+    public List<Resources> addResourcesToList (Resources resource){
+        if(resources == null)
+            resources = new ArrayList<>();
+        resources.add(resource);
+
+        return resources;
+    }
+
+    public List<Resources> deleteResourcesFromList (Resources resource) {
+        try {
+            resources.remove(resource);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return resources;
+    }
+
+    public List<Resources> getResources(){ return resources; }
+
+    public void setResources(List<Resources> resources) { this.resources = resources; }
 
     public Long getId() {
         return id;
