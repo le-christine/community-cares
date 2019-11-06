@@ -8,6 +8,7 @@ public class Resources {
 
     @Id
     @GeneratedValue
+    @Column(name="resource_id")
     private Long id;
 
     @Column(name="program_name")

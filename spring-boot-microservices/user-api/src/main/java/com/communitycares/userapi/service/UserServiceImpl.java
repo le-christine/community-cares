@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         }
         throw new Exception();
     }
+
     @Override
     public String login(User user) {
         User newUser = userRepository.findByUsername(user.getUsername());
