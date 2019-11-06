@@ -8,22 +8,20 @@ CREATE TABLE users (
 );
 
 CREATE TABLE resources (
-    resource_id SERIAL PRIMARY KEY,
-    program_name VARCHAR(100),
-    government_agency VARCHAR(100),
-    population_served VARCHAR(100),
-    age_group VARCHAR(50),
-    plain_language_program_name VARCHAR(255),
-    program_description VARCHAR(255)
+    query_id SERIAL PRIMARY KEY,
+    api_name VARCHAR(100),
+    api_resource_json VARCHAR(50),
+    unique_id_number VARCHAR(20),
+    age_group VARCHAR(50)
 );
 
 CREATE TABLE user_saved_resources (
     user_id BIGINT,
-    resource_id BIGINT
+    resource_query_id BIGINT
 );
 
 ALTER TABLE user_saved_resources ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id);
 
-ALTER TABLE user_saved_resources ADD CONSTRAINT fk_resource_id FOREIGN KEY (resource_id) REFERENCES resources(resource_id);
+ALTER TABLE user_saved_resources ADD CONSTRAINT fk_resource_query_id FOREIGN KEY (resource_query_id) REFERENCES resources(query_id);
 
 
