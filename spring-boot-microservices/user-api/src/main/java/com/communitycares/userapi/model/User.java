@@ -33,7 +33,7 @@ public class User {
                     CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "user_saved_resources",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = @JoinColumn(name = "resource_id"))
+            inverseJoinColumns = @JoinColumn(name = "resource_query_id"))
     private List<Resources> resources;
 
     public User() { }
