@@ -37,6 +37,7 @@ public class UserController {
                     HttpStatus.IM_USED, "Username already exists", exc);
         }
     }
+    
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User returningUser) {
         return ResponseEntity.ok(new JwtResponse(userService.login(returningUser)));
