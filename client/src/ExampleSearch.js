@@ -8,21 +8,21 @@ const ExampleSearch = (props) => {
         <Card body>
           <CardTitle>Special Title Treatment</CardTitle>
           <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-          <Button>Go somewhere</Button>
+          <Button color="info">Go somewhere</Button>
         </Card>
       </Col>
       <Col xs="6" sm="4">
         <Card body>
           <CardTitle>Special Title Treatment</CardTitle>
           <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-          <Button>Go somewhere</Button>
+          <Button color="info">Go somewhere</Button>
         </Card>
       </Col>
       <Col xs="6" sm="4">
         <Card body>
           <CardTitle>Special Title Treatment</CardTitle>
           <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-          <Button>Go somewhere</Button>
+          <Button color="info">Go somewhere</Button>
         </Card>
       </Col>
     </Row>
