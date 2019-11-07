@@ -1,13 +1,15 @@
 package com.communitycares.userapi.model;
 
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "resource_query")
-public class Resources {
+public class ResourceQuery {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="query_id")
     private Long id;
 

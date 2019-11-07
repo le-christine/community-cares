@@ -7,7 +7,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE resources (
+CREATE TABLE resource_query (
     query_id SERIAL PRIMARY KEY,
     api_name VARCHAR(100),
     api_resource_json VARCHAR(50),
@@ -16,12 +16,12 @@ CREATE TABLE resources (
 );
 
 CREATE TABLE user_saved_resources (
-    user_id BIGINT,
-    resource_query_id BIGINT
+    user_id BIGINT NOT NULL,
+    resource_query_id BIGINT NOT NULL,
+
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT fk_resource_query_id FOREIGN KEY (resource_query_id) REFERENCES resource_query(query_id)
 );
 
-ALTER TABLE user_saved_resources ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id);
-
-ALTER TABLE user_saved_resources ADD CONSTRAINT fk_resource_query_id FOREIGN KEY (resource_query_id) REFERENCES resources(query_id);
 
 
