@@ -1,11 +1,11 @@
 package com.communitycares.userapi.service;
 
-import com.communitycares.userapi.model.Resources;
+import com.communitycares.userapi.model.ResourceQuery;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface ResourceService {
-    public Resources addResource(Resources newResource);
+public interface ResourceQueryService {
+    public ResourceQuery addResource(ResourceQuery newResource);
 
-    public Iterable<Resources> listAllResources();
+    public Iterable<ResourceQuery> listAllResources();
 }

@@ -1,23 +1,23 @@
 package com.communitycares.userapi.service;
 
-import com.communitycares.userapi.model.Resources;
-import com.communitycares.userapi.repository.ResourceRepository;
+import com.communitycares.userapi.model.ResourceQuery;
+import com.communitycares.userapi.repository.ResourceQueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ResourceServiceImp implements ResourceService {
+public class ResourceQueryServiceImp implements ResourceQueryService {
 
     @Autowired
-    ResourceRepository resourceRepository;
+    ResourceQueryRepository resourceQueryRepository;
 
     @Override
-    public Resources addResource(Resources newResource) {
-        return resourceRepository.save(newResource);
+    public ResourceQuery addResource(ResourceQuery newResource) {
+        return resourceQueryRepository.save(newResource);
     }
 
     @Override
-    public Iterable<Resources> listAllResources() {
-        return resourceRepository.findAll();
+    public Iterable<ResourceQuery> listAllResources() {
+        return resourceQueryRepository.findAll();
     }
 }
