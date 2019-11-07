@@ -1,5 +1,5 @@
 import React from 'react';
-import { Jumbotron, Container } from 'reactstrap';
+import { Jumbotron, Container, Button } from 'reactstrap';
 import SearchComboBox from './SearchComboBox';
 
 const ageGroups = [
@@ -38,6 +38,9 @@ const MainSearch = (props) => {
           <SearchComboBox options={ageGroups}/>
           <h1 className="display-3">searching for</h1>
           <SearchComboBox options={resources}/>
+          <br/>
+          <Button>search</Button>
+
         </Container>
       </Jumbotron>
 

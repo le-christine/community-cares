@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
-import TopNav from './Nav';
-import MainSearch from './MainSearch';
-import ExampleSearch from './ExampleSearch';
+
+// Custom components
+import Page from './components/Page';
+
 
 function App() {
   return (
     <div className="App">
-    <TopNav/>
-    <MainSearch/>
-    <ExampleSearch/>
+      <Page/>
     </div>
   );
 }
