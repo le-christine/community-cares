@@ -1,6 +1,7 @@
 package com.communitycares.userapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,19 +35,19 @@ public class User {
     @JoinTable(name = "user_saved_resources",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = @JoinColumn(name = "resource_query_id"))
-    private List<Resources> resources;
+    private List<ResourceQuery> resources;
 
     public User() { }
 
-    public List<Resources> addResourcesToList (Resources resource){
+    public List<ResourceQuery> addResourcesToList (ResourceQuery resource){
         if(resources == null)
-            resources = new ArrayList<>();
+            resources = new ArrayList<ResourceQuery>();
         resources.add(resource);
 
         return resources;
     }
 
-    public List<Resources> deleteResourcesFromList (Resources resource) {
+    public List<ResourceQuery> deleteResourcesFromList (ResourceQuery resource) {
         try {
             resources.remove(resource);
         } catch (Exception e) {
@@ -55,9 +56,9 @@ public class User {
         return resources;
     }
 
-    public List<Resources> getResources(){ return resources; }
+    public List<ResourceQuery> getResources(){ return resources; }
 
-    public void setResources(List<Resources> resources) { this.resources = resources; }
+    public void setResources(List<ResourceQuery> resources) { this.resources = resources; }
 
     public Long getId() {
         return id;
