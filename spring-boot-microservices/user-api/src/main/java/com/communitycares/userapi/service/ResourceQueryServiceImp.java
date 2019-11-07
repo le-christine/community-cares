@@ -12,8 +12,8 @@ public class ResourceServiceImp implements ResourceService {
     ResourceRepository resourceRepository;
 
     @Override
-    public void addResource(Resources newResource) {
-        resourceRepository.save(newResource);
+    public Resources addResource(Resources newResource) {
+        return resourceRepository.save(newResource);
     }
 
     @Override

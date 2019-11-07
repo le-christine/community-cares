@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Resources {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="query_id")
     private Long id;
 

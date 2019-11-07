@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ResourceService {
-    public void addResource(Resources newResource);
+    public Resources addResource(Resources newResource);
 
     public Iterable<Resources> listAllResources();
 }
