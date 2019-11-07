@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { Card, Button, CardTitle, CardText, Col } from 'reactstrap';
 
 const ExampleSearch = (props) => {
   return (
@@ -7,7 +7,7 @@ const ExampleSearch = (props) => {
         <Card body>
           <CardTitle>{props.title}</CardTitle>
           <CardText>{props.text}</CardText>
-          <Button color="info">{props.title}</Button>
+          <Button color="info" onClick={props.onClick}>{props.title}</Button>
         </Card>
       </Col>
   );
