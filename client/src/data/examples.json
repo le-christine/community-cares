@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Finance",
+    "text": "finance blurb",
+    "fetchUrl" : "https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27%25Cash%25%27"
+  },
+  {
+    "title": "Housing",
+    "text": "housing blurb",
+    "fetchUrl" : "https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27%25Housing%25%27"
+  },
+  {
+    "title": "Nutrition",
+    "text": "nutrition blurb",
+    "fetchUrl" : "https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27%25Food%25%27"
+  }
+]
