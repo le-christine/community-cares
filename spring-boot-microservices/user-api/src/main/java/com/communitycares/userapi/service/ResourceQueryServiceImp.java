@@ -20,4 +20,10 @@ public class ResourceQueryServiceImp implements ResourceQueryService {
     public Iterable<ResourceQuery> listAllResources() {
         return resourceQueryRepository.findAll();
     }
+
+    @Override
+    public ResourceQuery findByUniqueIdNumber(String uniqueIdNumber) {
+        return resourceQueryRepository.findByUniqueIdNumber(uniqueIdNumber);
+    }
+
 }

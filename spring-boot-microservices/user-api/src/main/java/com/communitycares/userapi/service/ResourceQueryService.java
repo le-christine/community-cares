@@ -8,4 +8,6 @@ public interface ResourceQueryService {
     public ResourceQuery addResource(ResourceQuery newResource);
 
     public Iterable<ResourceQuery> listAllResources();
+
+    public ResourceQuery findByUniqueIdNumber(String uniqueIdNumber);
 }

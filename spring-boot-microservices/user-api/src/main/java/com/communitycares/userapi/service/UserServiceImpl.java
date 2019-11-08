@@ -87,20 +87,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Iterable<ResourceQuery> addResourceQuery(Long query_id) {
-        ResourceQuery resourceQuery = resourceQueryRepository.findById(query_id).get();
+    public Iterable<ResourceQuery> addResourceQuery(ResourceQuery rq) {
         User user = userRepository.findByUsername((securityController.getCurrentUsername()));
-        user.addResourcesToList(resourceQuery);
+        user.addResourcesToList(rq);
 
         userRepository.save(user);
         return user.getResources();
     }
 
     @Override
-    public Iterable<ResourceQuery> deleteResourceQuery(Long query_id) {
-        ResourceQuery resourceQuery = resourceQueryRepository.findById(query_id).get();
+    public Iterable<ResourceQuery> deleteResourceQuery(ResourceQuery rq) {
         User user = userRepository.findByUsername((securityController.getCurrentUsername()));
-        user.deleteResourcesFromList(resourceQuery);
+        user.deleteResourcesFromList(rq);
 
         userRepository.save(user);
         return user.getResources();

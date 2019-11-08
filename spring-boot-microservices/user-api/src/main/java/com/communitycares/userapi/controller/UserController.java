@@ -3,6 +3,7 @@ package com.communitycares.userapi.controller;
 import com.communitycares.userapi.model.JwtResponse;
 import com.communitycares.userapi.model.ResourceQuery;
 import com.communitycares.userapi.model.User;
+import com.communitycares.userapi.service.ResourceQueryService;
 import com.communitycares.userapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ResourceQueryService resourceQueryService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -49,13 +53,15 @@ public class UserController {
 //        return userService.deleteResourceQuery(resourceQuery.getUniqueIdNumber(), resourceQuery.getAgeGroup());
 //    }
 
-    @PutMapping("/add/{query_id}")
-    public Iterable<ResourceQuery> addResourceQuery(@PathVariable Long query_id) {
-    return userService.addResourceQuery(query_id);
+    @PutMapping("/add")
+    public Iterable<ResourceQuery> addResourceQuery(@RequestBody ResourceQuery rq) {
+       String uniqueIdNumber = rq.getUniqueIdNumber();
+       return userService.addResourceQuery(resourceQueryService.findByUniqueIdNumber(uniqueIdNumber));
     }
 
-    @DeleteMapping("/delete/{query_id}")
-    public Iterable<ResourceQuery> deleteResourceQuery(@PathVariable Long query_id) {
-        return userService.deleteResourceQuery(query_id);
+    @DeleteMapping("/delete")
+    public Iterable<ResourceQuery> deleteResourceQuery(@RequestBody ResourceQuery rq) {
+        String uniqueIdNumber = rq.getUniqueIdNumber();
+        return userService.deleteResourceQuery(resourceQueryService.findByUniqueIdNumber(uniqueIdNumber));
     }
 }

@@ -12,7 +12,7 @@ CREATE TABLE resource_query (
     api_name VARCHAR(100),
     api_resource_json VARCHAR(50),
     unique_id_number VARCHAR(20),
-    age_group VARCHAR(50)
+    program_category VARCHAR(50)
 );
 
 CREATE TABLE user_saved_resources (
