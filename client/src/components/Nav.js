@@ -7,9 +7,23 @@ const TopNav = (props) => {
       <Nav
         style={{backgroundColor:'#FBC02D'}}>
         <NavLink disabled href="#" style={{color:'white'}}>Community Cares</NavLink>
-        <NavLink href="#" style={{float:'right'}}>Link</NavLink>
-        <NavLink href="#">Another Link</NavLink>
-        <NavLink disabled href="#">Disabled Link</NavLink>
+
+        {props.loggedInStatus ?
+        <NavLink href="#">View saved resources</NavLink>
+        :
+        <div
+          style = {{
+            display:'flex'}}>
+        <i style={{color:'white', margin: 'auto'}} className="far fa-user-circle"></i>
+        <NavLink
+          style={{padding:'.5rem'}}
+          href="#"
+          onClick = {props.handleLogInClick} >Log in</NavLink>
+        <NavLink
+          href="#"
+          onClick= {props.handleSignUpClick}>Sign Up</NavLink>
+        </div>
+        }
       </Nav>
     </div>
   );
