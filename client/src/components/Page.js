@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Spinner } from 'reactstrap';
+import { Row, Spinner, Jumbotron } from 'reactstrap';
 
 
 // Custom components
@@ -61,15 +61,20 @@ class Page extends Component {
             onClick={() => {this.getOpenData(query.fetchUrl); this.changedataFetchClicked()}}/>
         )}
         </Row>
-        {this.state.dataFetchClicked ? this.state.dataFetchStatus ?
-          this.state.results.map((result, index) => {
-            return (
-            <SearchResults result={result}/>
-            )
-          }) :
-          <Spinner style={{ width: '3rem', height: '3rem' }} />
-          : ' ' }
-
+        {this.state.dataFetchClicked ?
+          <Jumbotron>
+          <h3>{this.state.results.length} RESULTS </h3>
+          {this.state.dataFetchClicked ? this.state.dataFetchStatus ?
+            this.state.results.map((result, index) => {
+              return (
+              <SearchResults result={result}/>
+              )
+            }) :
+            <Spinner style={{ width: '3rem', height: '3rem' }} />
+            : ' ' }
+          </Jumbotron>
+          :
+          " " }
         <Footer/>
       </div>
     )
