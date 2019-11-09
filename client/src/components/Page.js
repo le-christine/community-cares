@@ -31,9 +31,12 @@ class Page extends Component {
       dataFetchStatus: false,
       dataFetchError: false,
       dataFetchClicked : false,
-      results: [],
-      ageGroup: '',
-      resource: ''
+      apiResults: [],
+      userSavedResults : [],
+      query: {
+        age: {},
+        program: {},
+      }
     }
   }
 
@@ -44,7 +47,7 @@ class Page extends Component {
       console.log(res);
       this.setState({
         dataFetchStatus: true,
-        results: res
+        apiResults: res
       })
     })
     .catch((err) => {
@@ -53,8 +56,34 @@ class Page extends Component {
     })
   }
 
+  constructFetchUrlFromSavedResource = () => {
+    return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=unique_id_number%20in%20(${this.state.userSavedResults.toString()})`
+  }
+
   constructCustomFetchUrl = () => {
     return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.resource}%27and%20age_group%20like%20%27%25${this.state.ageGroup}%25%27`;
+  }
+
+  getUserSavedResources = () => {
+    fetch('/user/resources/list', {
+      headers: {
+        'Authorization': 'Bearer ' + this.state.user.res.token,
+        'Content-Type' : 'application/json'
+      }
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      res.map(resource => {
+        this.setState({
+          userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
+        })
+      })
+      this.getOpenData(this.constructFetchUrlFromSavedResource());
+      this.changedataFetchClicked();
+    })
+    .catch((err) => {console.log(err)})
   }
 
   logIntoApp = () => {
@@ -110,21 +139,53 @@ class Page extends Component {
     })
   }
 
-  addResourceToDb = () => {
+  addResourceToDb = (uniqueIdNumber, programCategory) => {
+    console.log('add resource to db triggered');
+    const apiName = "Benefits and Programs API";
+    const apiResourceJson = "kvhd-5fmu.json";
+
+    if (this.state.loggedIn) {
     fetch('/resource/add', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
-        apiName: 'Benefits and Programs API',
-        lastName: this.state.user.lastName,
-        email: this.state.user.email,
-        username: this.state.user.username,
-        password: this.state.user.password
+        apiName: apiName,
+        apiResourceJson: apiResourceJson,
+        uniqueIdNumber: uniqueIdNumber,
+        programCategory: programCategory
       })
     })
+    .then((res) => {return res.json()})
+    .then((res) => {this.saveResourceToUser(uniqueIdNumber, programCategory)})
+    .catch((err) => {console.log(err)})
+  } else {
+    alert('You must be logged in to do this.');}
+  }
 
+
+
+  saveResourceToUser = (uniqueIdNumber, programCategory) => {
+    console.log('add resource to user triggered');
+    const apiName = "Benefits and Programs API";
+    const apiResourceJson = "kvhd-5fmu.json";
+
+    fetch('/user/add', {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + this.state.user.res.token,
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        apiName: apiName,
+        apiResourceJson: apiResourceJson,
+        uniqueIdNumber: uniqueIdNumber,
+        programCategory: programCategory
+      })
+    })
+    .then((res) => {return res.json()})
+    .catch((err) => {console.log(err)})
   }
 
   handleLoggedIn = () => {
@@ -178,14 +239,36 @@ class Page extends Component {
     })
   }
 
+  handleAgeGroupQueryChange = (e) => {
+    this.setState({
+      query: { ...this.state.query,
+      ageGroup : e.target.value}
+    })
+  }
+
+  handleResourceQueryChange = (e) => {
+    this.setState({
+      query: { ...this.state.query,
+      resource : e.target.value}
+    })
+  }
+
+
+
   render() {
     return (
       <div>
         <TopNav
           loggedInStatus = {this.state.loggedIn}
           handleLogInClick = {() => this.handleLogInClick()}
-          handleSignUpClick = {() => this.handleSignUpClick()}/>
-        <MainSearch/>
+          handleSignUpClick = {() => this.handleSignUpClick()}
+          getUserSavedResources = {() => this.getUserSavedResources()}/>
+        <MainSearch
+          ageValue = {this.state.query.age}
+          programValue = {this.state.program}
+          handleAgeGroupQueryChange = {this.handleAgeGroupQueryChange}
+          handleResourceQueryChange = {this.handleResourceQueryChange}
+          />
         {this.state.logInClicked ?
           <LogInModal
           username= {this.state.username}
@@ -222,11 +305,15 @@ class Page extends Component {
         {this.state.dataFetchClicked ?
           <Jumbotron
             style = {{marginBottom:'0'}}>
-          <h3>{this.state.results.length} RESULTS </h3>
+          <h3>{this.state.apiResults.length} RESULTS </h3>
           {this.state.dataFetchClicked ? this.state.dataFetchStatus ?
-            this.state.results.map((result, index) => {
+            this.state.apiResults.map((result, index) => {
               return (
-              <SearchResults key = {index} result={result}/>
+              <SearchResults
+                key = {index}
+                result={result}
+                addResourceToDb = {this.addResourceToDb}
+                loggedInStatus = {this.state.loggedIn}/>
               )
             }) :
             <Spinner style={{ width: '3rem', height: '3rem' }} />
