@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResourceQueryRepository extends CrudRepository<ResourceQuery, Long> {
-    @Query("FROM resource_query rq WHERE rq.unique_id_number = ?1")
-    public ResourceQuery findByUniqueIdNumber(String uniqueIdNumber);
+    @Query("FROM resource_query rq WHERE rq.unique_id_number = ?1 AND rq.program_category = ?2 LIMIT 1")
+    public ResourceQuery findByUniqueIdNumberAndAndProgramCategory(String uniqueIdNumber, String programCategory);
 }
