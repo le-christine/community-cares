@@ -3,6 +3,7 @@ package com.communitycares.userapi.controller;
 import com.communitycares.userapi.model.JwtResponse;
 import com.communitycares.userapi.model.ResourceQuery;
 import com.communitycares.userapi.model.User;
+import com.communitycares.userapi.service.ResourceQueryService;
 import com.communitycares.userapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ResourceQueryService resourceQueryService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -39,23 +43,22 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(userService.login(returningUser)));
     }
 
-//    @PutMapping("/add/resource")
-//    public Iterable<ResourceQuery> addResourceQuery(@RequestBody ResourceQuery newResourceQuery) {
-//        return userService.addResourceQuery(newResourceQuery.getUniqueIdNumber(), newResourceQuery.getAgeGroup());
-//    }
-//
-//    @DeleteMapping("/delete/resource")
-//    public Iterable<ResourceQuery> deleteResourceQuery(@RequestBody ResourceQuery resourceQuery) {
-//        return userService.deleteResourceQuery(resourceQuery.getUniqueIdNumber(), resourceQuery.getAgeGroup());
-//    }
-
-    @PutMapping("/add/{query_id}")
-    public Iterable<ResourceQuery> addResourceQuery(@PathVariable Long query_id) {
-    return userService.addResourceQuery(query_id);
+    @PutMapping("/add")
+    public Iterable<ResourceQuery> addResourceQuery(@RequestBody ResourceQuery rq) {
+       String uniqueIdNumber = rq.getUniqueIdNumber();
+       String programCategory = rq.getProgramCategory();
+       return userService.addResourceQuery(resourceQueryService.findByUniqueIdNumberAndProgramCategory(uniqueIdNumber, programCategory));
     }
 
-    @DeleteMapping("/delete/{query_id}")
-    public Iterable<ResourceQuery> deleteResourceQuery(@PathVariable Long query_id) {
-        return userService.deleteResourceQuery(query_id);
+    @DeleteMapping("/delete")
+    public Iterable<ResourceQuery> deleteResourceQuery(@RequestBody ResourceQuery rq) {
+        String uniqueIdNumber = rq.getUniqueIdNumber();
+        String programCategory = rq.getProgramCategory();
+        return userService.deleteResourceQuery(resourceQueryService.findByUniqueIdNumberAndProgramCategory(uniqueIdNumber, programCategory));
+    }
+
+    @GetMapping("/resources/list")
+    public Iterable<ResourceQuery> getUserSavedResources() {
+        return userService.getUserSavedResources();
     }
 }

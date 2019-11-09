@@ -13,8 +13,9 @@ public interface UserService extends UserDetailsService {
 
     public String login(User user);
 
-    public Iterable<ResourceQuery> addResourceQuery(Long query_id);
+    public Iterable<ResourceQuery> addResourceQuery(ResourceQuery rq);
 
-    public Iterable<ResourceQuery> deleteResourceQuery(Long query_id);
+    public Iterable<ResourceQuery> deleteResourceQuery(ResourceQuery rq);
 
+    public Iterable<ResourceQuery> getUserSavedResources();
 }

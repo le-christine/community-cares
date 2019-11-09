@@ -8,6 +8,8 @@ import ExampleSearch from './ExampleSearch';
 import MainSearch from './MainSearch';
 import SearchResults from './SearchResults';
 import Footer from './Footer';
+import LogInModal from './LogInModal';
+import SignUpModal from './SignUpModal';
 
 import examples from '../data/examples';
 
@@ -16,6 +18,15 @@ class Page extends Component {
     super(props);
 
     this.state = {
+      user: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        username: '',
+        password: ''
+      },
+      signUpClicked : false,
+      logInClicked: false,
       loggedIn: false,
       dataFetchStatus: false,
       dataFetchError: false,
@@ -42,15 +53,162 @@ class Page extends Component {
     })
   }
 
+  constructCustomFetchUrl = () => {
+    return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.resource}%27and%20age_group%20like%20%27%25${this.state.ageGroup}%25%27`;
+  }
+
+  logIntoApp = () => {
+    fetch('/user/login', {
+      method: 'POST',
+      headers : {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        username: this.state.user.username,
+        password: this.state.user.password
+      })
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      this.setState({
+        user: { ...this.state.user, res}
+        })
+      this.handleLoggedIn();
+    })
+    .catch((err) => {
+      console.log(err);
+      })
+  }
+
+  signUp = () => {
+    fetch('/user/signup/', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: this.state.user.firstName,
+        lastName: this.state.user.lastName,
+        email: this.state.user.email,
+        username: this.state.user.username,
+        password: this.state.user.password
+      })
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((res) => {
+      this.setState({
+        user: { ...this.state.user, res}
+        })
+      this.handleLoggedIn();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  addResourceToDb = () => {
+    fetch('/resource/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        apiName: 'Benefits and Programs API',
+        lastName: this.state.user.lastName,
+        email: this.state.user.email,
+        username: this.state.user.username,
+        password: this.state.user.password
+      })
+    })
+
+  }
+
+  handleLoggedIn = () => {
+    this.state.user.res.token !== null && this.state.user.res.error !== "IM Used"?
+    this.setState({loggedIn: true}) :
+    this.setState({loggedIn: false})
+  }
+
   changedataFetchClicked = () => {
     this.setState({ dataFetchClicked : true })
+  }
+
+  handleLogInClick = () => {
+    this.setState({logInClicked: !this.state.logInClicked})
+  }
+
+  handleSignUpClick = () => {
+    this.setState({signUpClicked: !this.state.signUpClicked})
+  }
+
+  handleUsernameChange = (e) => {
+    this.setState({user: { ...this.state.user,
+      username: e.target.value}}
+    )
+  }
+
+  handlePasswordChange = (e) => {
+    this.setState({
+      user : { ...this.state.user,
+      password: e.target.value}})
+  }
+
+  handleEmailChange = (e) => {
+    this.setState({
+      user: { ...this.state.user,
+      email: e.target.value}
+    })
+  }
+
+  handleFirstNameChange = (e) => {
+    this.setState({
+      user: { ...this.state.user,
+      firstName: e.target.value}
+    })
+  }
+
+  handleLastNameChange = (e) => {
+    this.setState({
+      user: { ...this.state.user,
+      lastName: e.target.value}
+    })
   }
 
   render() {
     return (
       <div>
-        <TopNav/>
+        <TopNav
+          loggedInStatus = {this.state.loggedIn}
+          handleLogInClick = {() => this.handleLogInClick()}
+          handleSignUpClick = {() => this.handleSignUpClick()}/>
         <MainSearch/>
+        {this.state.logInClicked ?
+          <LogInModal
+          username= {this.state.username}
+          password = {this.state.password}
+          handleLogInClick = {() => this.handleLogInClick()}
+          logIntoApp = {() => this.logIntoApp()}
+          handleUsernameChange = {this.handleUsernameChange}
+          handlePasswordChange = {this.handlePasswordChange}
+          /> : ' '
+        }
+        {this.state.signUpClicked ?
+          <SignUpModal
+          username= {this.state.username}
+          password = {this.state.password}
+          handleSignUpClick = {() => this.handleSignUpClick()}
+          signUp = {() => this.signUp()}
+          handleUsernameChange = {this.handleUsernameChange}
+          handlePasswordChange = {this.handlePasswordChange}
+          handleFirstNameChange = {this.handleFirstNameChange}
+          handleLastNameChange = {this.handleLastNameChange}
+          handleEmailChange = {this.handleEmailChange}
+          /> : ' '
+        }
         <h2>Check out these examples</h2>
         <Row>
         {examples.map((query, index) =>
@@ -62,12 +220,13 @@ class Page extends Component {
         )}
         </Row>
         {this.state.dataFetchClicked ?
-          <Jumbotron>
+          <Jumbotron
+            style = {{marginBottom:'0'}}>
           <h3>{this.state.results.length} RESULTS </h3>
           {this.state.dataFetchClicked ? this.state.dataFetchStatus ?
             this.state.results.map((result, index) => {
               return (
-              <SearchResults result={result}/>
+              <SearchResults key = {index} result={result}/>
               )
             }) :
             <Spinner style={{ width: '3rem', height: '3rem' }} />

@@ -7,9 +7,8 @@ const SearchResults = (props) => {
       <Container
       style = {{
         backgroundColor: 'white',
-        height: '20vh',
+        minHeight: '20vh',
         marginTop: '2%',
-        overflow: 'auto',
         textAlign: 'left'
       }}>
       <Row>
@@ -23,18 +22,35 @@ const SearchResults = (props) => {
           flexDirection: 'column',
           justifyContent: 'center'
         }}>
-          <a href = {props.result.url_of_online_application} target="_blank" rel="noopener noreferrer">
-          <Button
-          style = {{
-            borderRadius: '50%',
-            height: '3em',
-            width: '3em',
-            border: 'none',
-            backgroundColor: '#EF5350'}}
-            >
-            <i className="fas fa-arrow-right"></i>
-          </Button></a>
-          <Button color="info" style={{
+
+          {props.result.url_of_online_application ?
+            <a href = {props.result.url_of_online_application} target="_blank" rel="noopener noreferrer">
+            <Button
+            style = {{
+              borderRadius: '50%',
+              height: '3em',
+              width: '3em',
+              border: 'none',
+              backgroundColor: '#EF5350'}}
+              >
+              <i className="fas fa-arrow-right"></i>
+              </Button></a>
+            :
+            <a href = {props.result.url_of_pdf_application_forms} target="_blank" rel="noopener noreferrer">
+            <Button
+            style = {{
+              borderRadius: '50%',
+              height: '3em',
+              width: '3em',
+              border: 'none',
+              backgroundColor: '#EF5350'}}
+              >
+              <i className="fas fa-arrow-right"></i>
+              </Button></a>
+          }
+
+
+          <Button color="info" value={props.result.unique_id_number} style={{
             height: '3em',
             width: '3em',
             borderRadius: '50%'}}>

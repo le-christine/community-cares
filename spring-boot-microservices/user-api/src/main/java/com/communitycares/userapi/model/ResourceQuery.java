@@ -22,8 +22,8 @@ public class ResourceQuery {
     @Column(name="unique_id_number")
     private String uniqueIdNumber;
 
-    @Column(name="age_group")
-    private String ageGroup;
+    @Column(name="program_category")
+    private String programCategory;
 
     public Long getId() {
         return id;
@@ -57,11 +57,11 @@ public class ResourceQuery {
         this.uniqueIdNumber = uniqueIdNumber;
     }
 
-    public String getAgeGroup() {
-        return ageGroup;
+    public String getProgramCategory() {
+        return programCategory;
     }
 
-    public void setAgeGroup(String ageGroup) {
-        this.ageGroup = ageGroup;
+    public void setProgramCategory(String programCategory) {
+        this.programCategory = programCategory;
     }
 }
