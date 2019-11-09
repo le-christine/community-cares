@@ -50,7 +50,7 @@ const SearchResults = (props) => {
           }
 
 
-          <Button color="info" style={{
+          <Button color="info" value={props.result.unique_id_number} style={{
             height: '3em',
             width: '3em',
             borderRadius: '50%'}}>

@@ -53,6 +53,10 @@ class Page extends Component {
     })
   }
 
+  constructCustomFetchUrl = () => {
+    return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.resource}%27and%20age_group%20like%20%27%25${this.state.ageGroup}%25%27`;
+  }
+
   logIntoApp = () => {
     fetch('/user/login', {
       method: 'POST',
@@ -100,13 +104,31 @@ class Page extends Component {
         user: { ...this.state.user, res}
         })
       this.handleLoggedIn();
-    })    .catch((err) => {
+    })
+    .catch((err) => {
       console.log(err);
     })
   }
 
+  addResourceToDb = () => {
+    fetch('/resource/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        apiName: 'Benefits and Programs API',
+        lastName: this.state.user.lastName,
+        email: this.state.user.email,
+        username: this.state.user.username,
+        password: this.state.user.password
+      })
+    })
+
+  }
+
   handleLoggedIn = () => {
-    this.state.user.res.token !== null && this.state.user.res.error != "IM Used"?
+    this.state.user.res.token !== null && this.state.user.res.error !== "IM Used"?
     this.setState({loggedIn: true}) :
     this.setState({loggedIn: false})
   }
