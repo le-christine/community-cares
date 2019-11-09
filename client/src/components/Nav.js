@@ -9,7 +9,10 @@ const TopNav = (props) => {
         <NavLink disabled href="#" style={{color:'white'}}>Community Cares</NavLink>
 
         {props.loggedInStatus ?
-        <NavLink href="#">View saved resources</NavLink>
+        <NavLink
+          href="#"
+          onClick = {props.getUserSavedResources}>
+          View saved resources</NavLink>
         :
         <div
           style = {{
