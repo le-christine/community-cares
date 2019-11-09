@@ -9,5 +9,5 @@ public interface ResourceQueryService {
 
     public Iterable<ResourceQuery> listAllResources();
 
-    public ResourceQuery findByUniqueIdNumber(String uniqueIdNumber);
+    public ResourceQuery findByUniqueIdNumberAndProgramCategory(String uniqueIdNumber, String programCategory);
 }

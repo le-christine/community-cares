@@ -22,8 +22,8 @@ public class ResourceQueryServiceImp implements ResourceQueryService {
     }
 
     @Override
-    public ResourceQuery findByUniqueIdNumber(String uniqueIdNumber) {
-        return resourceQueryRepository.findByUniqueIdNumber(uniqueIdNumber);
+    public ResourceQuery findByUniqueIdNumberAndProgramCategory(String uniqueIdNumber, String programCategory) {
+        return resourceQueryRepository.findByUniqueIdNumberAndAndProgramCategory(uniqueIdNumber, programCategory);
     }
 
 }
