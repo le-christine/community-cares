@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,12 @@ public class UserServiceImpl implements UserService {
         user.deleteResourcesFromList(rq);
 
         userRepository.save(user);
+        return user.getResources();
+    }
+
+    @Override
+    public Iterable<ResourceQuery> getUserSavedResources() {
+        User user = userRepository.findByUsername((securityController.getCurrentUsername()));
         return user.getResources();
     }
 

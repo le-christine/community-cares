@@ -17,4 +17,5 @@ public interface UserService extends UserDetailsService {
 
     public Iterable<ResourceQuery> deleteResourceQuery(ResourceQuery rq);
 
+    public Iterable<ResourceQuery> getUserSavedResources();
 }
