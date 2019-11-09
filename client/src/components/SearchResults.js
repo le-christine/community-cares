@@ -50,7 +50,16 @@ const SearchResults = (props) => {
           }
 
 
-          <Button color="info" value={props.result.unique_id_number} style={{
+          <Button
+            onClick = {(e) => {
+              props.addResourceToDb(e);
+              props.saveResourceToUser(e)}}
+            color="info"
+            value={[
+              props.result.unique_id_number,
+              props.result.program_category
+            ]}
+            style={{
             height: '3em',
             width: '3em',
             borderRadius: '50%'}}>
