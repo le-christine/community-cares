@@ -49,22 +49,18 @@ const SearchResults = (props) => {
               </Button></a>
           }
 
-
           <Button
             onClick = {(e) => {
-              props.addResourceToDb(e);
-              props.saveResourceToUser(e)}}
+              props.addResourceToDb(props.result.unique_id_number,props.result.program_category);
+              }}
             color="info"
-            value={[
-              props.result.unique_id_number,
-              props.result.program_category
-            ]}
             style={{
             height: '3em',
             width: '3em',
             borderRadius: '50%'}}>
             <i className="fas fa-plus"></i>
             </Button>
+
         </div>
       </Row>
 
