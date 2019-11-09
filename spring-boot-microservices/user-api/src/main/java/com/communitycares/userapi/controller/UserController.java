@@ -43,25 +43,22 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(userService.login(returningUser)));
     }
 
-//    @PutMapping("/add/resource")
-//    public Iterable<ResourceQuery> addResourceQuery(@RequestBody ResourceQuery newResourceQuery) {
-//        return userService.addResourceQuery(newResourceQuery.getUniqueIdNumber(), newResourceQuery.getAgeGroup());
-//    }
-//
-//    @DeleteMapping("/delete/resource")
-//    public Iterable<ResourceQuery> deleteResourceQuery(@RequestBody ResourceQuery resourceQuery) {
-//        return userService.deleteResourceQuery(resourceQuery.getUniqueIdNumber(), resourceQuery.getAgeGroup());
-//    }
-
     @PutMapping("/add")
     public Iterable<ResourceQuery> addResourceQuery(@RequestBody ResourceQuery rq) {
        String uniqueIdNumber = rq.getUniqueIdNumber();
-       return userService.addResourceQuery(resourceQueryService.findByUniqueIdNumber(uniqueIdNumber));
+       String programCategory = rq.getProgramCategory();
+       return userService.addResourceQuery(resourceQueryService.findByUniqueIdNumberAndProgramCategory(uniqueIdNumber, programCategory));
     }
 
     @DeleteMapping("/delete")
     public Iterable<ResourceQuery> deleteResourceQuery(@RequestBody ResourceQuery rq) {
         String uniqueIdNumber = rq.getUniqueIdNumber();
-        return userService.deleteResourceQuery(resourceQueryService.findByUniqueIdNumber(uniqueIdNumber));
+        String programCategory = rq.getProgramCategory();
+        return userService.deleteResourceQuery(resourceQueryService.findByUniqueIdNumberAndProgramCategory(uniqueIdNumber, programCategory));
+    }
+
+    @GetMapping("/resources/list")
+    public Iterable<ResourceQuery> getUserSavedResources() {
+        return userService.getUserSavedResources();
     }
 }
