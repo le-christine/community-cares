@@ -1,17 +1,17 @@
 [
   {
     "title": "Finance",
-    "text": "finance blurb",
+    "text": "State programs grant money to help with heating bills, a down payment on a home and more. Explore your options to manage your financial health.",
     "fetchUrl" : "https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27%25Cash%25%27"
   },
   {
     "title": "Housing",
-    "text": "housing blurb",
+    "text": "Many resources can help eligible individuals and families in need find a home. Find out more about housing assistance.",
     "fetchUrl" : "https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27%25Housing%25%27"
   },
   {
     "title": "Nutrition",
-    "text": "nutrition blurb",
+    "text": "Find out about the programs and services that increase food security and reduce hunger through access to affordable, healthy food and nutrition education.",
     "fetchUrl" : "https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27%25Food%25%27"
   }
 ]
