@@ -10,7 +10,7 @@ Application:
 - Java Spring Boot
 - React
 - PostgreSQL
-- API: https://data.cityofnewyork.us/Social-Services/Benefits-and-Programs-API/kvhd-5fmu
+- API: <a href = "https://data.cityofnewyork.us/Social-Services/Benefits-and-Programs-API/kvhd-5fmu" target="_blank">NYC Open Data Benefits and Programs API</a>
 
 
 Deployment:
