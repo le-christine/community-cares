@@ -59,7 +59,9 @@ class Page extends Component {
   }
 
   constructCustomFetchUrl = () => {
-    return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.resource}%27and%20age_group%20like%20%27%25${this.state.ageGroup}%25%27`;
+    if (this.state.programQuery.selectedOption && this.state.ageQuery.selectedOption) {
+      return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.programQuery.selectedOption.value}%27and%20age_group%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27or%20population_served%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27`
+    } else { alert('Select search options.')}
   }
 
   getUserSavedResources = () => {
@@ -186,6 +188,11 @@ class Page extends Component {
     .catch((err) => {console.log(err)})
   }
 
+  fetchCustomQuery = () => {
+    this.getOpenData(this.constructCustomFetchUrl());
+    this.changedataFetchClicked();
+  }
+
   handleLoggedIn = () => {
     this.state.user.res.token !== null && this.state.user.res.error !== "IM Used"?
     this.setState({loggedIn: true}) :
@@ -265,6 +272,7 @@ class Page extends Component {
           programValue = {this.state.programQuery}
           handleAgeGroupQueryChange = {this.handleAgeGroupQueryChange}
           handleResourceQueryChange = {this.handleResourceQueryChange}
+          fetchCustomQuery = {this.fetchCustomQuery}
           />
         {this.state.logInClicked ?
           <LogInModal
