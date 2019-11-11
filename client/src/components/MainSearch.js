@@ -6,13 +6,12 @@ import SearchComboBox from './SearchComboBox';
 
 import Background from '../media/bw-nyc-skyline.jpeg';
 const ageGroups = [
-  { value: 'Baby', label: 'Infant' },
-  { value: 'Caregiver', label: 'Caregiver' },
-  { value: 'Grade-schooler', label: 'Grade-schooler' },
-  { value: 'Pre-scooler', label: 'Pre-schooler' },
+  { value: 'Adult', label: 'Adult'},
+  { value: 'Parent', label: 'Parent' },
   { value: 'Pre-teen', label: 'Pre-teenager' },
   { value: 'Teen', label: 'Teenager' },
   { value: 'Young adult', label: 'Young adult' },
+  { value: 'Veteran', label: 'Veteran'}
 ];
 
 const resources = [
@@ -58,7 +57,11 @@ const MainSearch = (props) => {
               fontSize: '4em',
               display: 'inline-block'
             }}>I am a/an</h1>
-          <SearchComboBox options={ageGroups}/>
+          <SearchComboBox
+            value = {props.ageValue}
+            handleChange = {props.handleAgeGroupQueryChange}
+            options={ageGroups}
+            />
           <h1
             className="display-3"
             style={{
@@ -66,7 +69,11 @@ const MainSearch = (props) => {
               fontSize: '4em',
               display: 'inline-block'
             }}>searching for</h1>
-          <SearchComboBox options={resources}/>
+          <SearchComboBox
+            value = {props.programValue}
+            handleChange = {props.handleResourceQueryChange}
+            options={resources}
+          />
 
           <Button
             style = {{

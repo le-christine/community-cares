@@ -33,10 +33,8 @@ class Page extends Component {
       dataFetchClicked : false,
       apiResults: [],
       userSavedResults : [],
-      query: {
-        age: {},
-        program: {},
-      }
+      ageQuery: {},
+      programQuery: {}
     }
   }
 
@@ -239,17 +237,16 @@ class Page extends Component {
     })
   }
 
-  handleAgeGroupQueryChange = (e) => {
-    this.setState({
-      query: { ...this.state.query,
-      ageGroup : e.target.value}
-    })
-  }
+  handleAgeGroupQueryChange = selectedOption => {
+      this.setState({
+        ageQuery : { selectedOption }
+      })
+    };
 
-  handleResourceQueryChange = (e) => {
+
+  handleResourceQueryChange =  selectedOption  => {
     this.setState({
-      query: { ...this.state.query,
-      resource : e.target.value}
+      programQuery : { selectedOption }
     })
   }
 
@@ -264,8 +261,8 @@ class Page extends Component {
           handleSignUpClick = {() => this.handleSignUpClick()}
           getUserSavedResources = {() => this.getUserSavedResources()}/>
         <MainSearch
-          ageValue = {this.state.query.age}
-          programValue = {this.state.program}
+          ageValue = {this.state.ageQuery}
+          programValue = {this.state.programQuery}
           handleAgeGroupQueryChange = {this.handleAgeGroupQueryChange}
           handleResourceQueryChange = {this.handleResourceQueryChange}
           />
