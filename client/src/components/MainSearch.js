@@ -6,26 +6,29 @@ import SearchComboBox from './SearchComboBox';
 
 import Background from '../media/bw-nyc-skyline.jpeg';
 const ageGroups = [
-  { value: 'Adult', label: 'Adult'},
-  { value: 'Parent', label: 'Parent' },
+  { value: 'everyone', label: 'Adult'},
+  { value : 'students', label: 'Student'},
+  { value: 'parents', label: 'Parent' },
   { value: 'Pre-teen', label: 'Pre-teenager' },
   { value: 'Teen', label: 'Teenager' },
   { value: 'Young adult', label: 'Young adult' },
-  { value: 'Veteran', label: 'Veteran'}
+  { value: 'Veteran', label: 'Veteran'},
+  { value: 'immigrants', label: 'Immigrant'}
 ];
 
+
 const resources = [
-  { value: 'cash & expenses', label: 'Financial Help' },
-  { value: 'child care', label: 'Child Care' },
-  { value: 'city ID card', label: 'City Identification' },
-  { value: 'education', label: 'Education programs' },
-  { value: 'enrichment', label: 'Enrichment programs' },
-  { value: 'family services', label: 'Family services' },
-  { value: 'food', label: 'Food' },
-  { value: 'health', label: 'Health care' },
-  { value: 'housing', label: 'Housing' },
-  { value: 'people with disabilities', label: 'Disability help' },
-  { value: 'work', label: 'Employment' },
+  { value: 'Cash & expenses', label: 'Financial Help' },
+  { value: 'Child Care', label: 'Child Care' },
+  { value: 'City ID Card', label: 'City Identification' },
+  { value: 'Education', label: 'Education programs' },
+  { value: 'Enrichment', label: 'Enrichment programs' },
+  { value: 'Family services', label: 'Family services' },
+  { value: 'Food', label: 'Food' },
+  { value: 'Health', label: 'Health care' },
+  { value: 'Housing', label: 'Housing' },
+  { value: 'People with Disabilities', label: 'Disability help' },
+  { value: 'Work', label: 'Employment' },
 ];
 
 //Values: everyone, children (0-13), families, immigrants, NYCHA residents, people with disabilities, pregnant & new parents, seniors, students, youth (14+), veterans
@@ -82,7 +85,8 @@ const MainSearch = (props) => {
               borderRadius: '50%',
               display: 'block',
               backgroundColor: '#EF5350'
-            }}><i className="fas fa-search"></i></Button>
+            }}
+            onClick = {props.fetchCustomQuery}><i className="fas fa-search"></i></Button>
         </Container>
       </Jumbotron>
 
