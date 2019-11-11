@@ -25,8 +25,9 @@ Planning:
 
 
 ### General approach
+Although it was not a project requirement, I wanted to incorporate a 3rd party API into this project. I am passionate about bringing tech into spaces often overlooked, and using data to help people make informed decisions. Naturally this led me to use NYC Open Data's Program and Benefits API, which provides benefit, program, and resource information for over 80 health and human services available to NYC residents. I chose this data set because it provides applicable information to a large population, and the data is kept up-to-date and includes the most recent applications, eligibility requirements, and application dates. Users would be able to interact with this API via Community Cares to perform individual queries that filter by age group and program type. I researched how to access the data via Socrata Open Data API via SoQL Queries (“Socrata Query Language”).
 
-
+### Wireframes
 ### Planning
 | | Day            | 1                                    | 2                                            | 3                                                   | 4                                                     |
 |----------------|----------------|--------------------------------------|----------------------------------------------|-----------------------------------------------------|-------------------------------------------------------|
@@ -34,6 +35,5 @@ Planning:
 |   | Read API schema and located API endpoints |  Build out user api with users and resources model                        |Test endpoint to save dummy resource and link to user| Contintuation of building client|
 |  | Wireframe front-end | Create endpoints to save resources| Iteration and finalization of revised endpoints |                              |
 
-### Wireframes
 ### Unsolved problems
 ### User stories
