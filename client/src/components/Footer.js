@@ -12,13 +12,13 @@ function Footer() {
       </div>
       <div style={{width: '30vw', textAlign: 'left'}}>
         <h4>Links</h4>
-        <a href="https://opendata.cityofnewyork.us/" target="_blank">NYC Open Data</a><br/>
-        <a href="https://en.wikipedia.org/wiki/Civic_technology" target="_blank">What is Civic Tech?</a>
+        <a href="https://opendata.cityofnewyork.us/" target="_blank" rel="noopener noreferrer">NYC Open Data</a><br/>
+        <a href="https://en.wikipedia.org/wiki/Civic_technology" target="_blank" rel="noopener noreferrer">What is civic tech?</a><br/>
       </div>
       <div style={{width: '30vw',textAlign: 'left'}}>
         <h4>Disclaimer</h4>
         <p>Last updated: November 11, 2019</p>
-        <p>Community Care is   for general information purposes only.</p>
+        <p>Community Care is for general information purposes only.</p>
       </div>
       </div>
       <div style={{backgroundColor: '#FBC02D'}}>
