@@ -1,8 +1,14 @@
 import React from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button, Badge } from 'reactstrap';
 
 
 const SearchResults = (props) => {
+    const populationServed = props.result.population_served.split(',').map((population, index) => {
+      return (
+        <Badge style={{marginRight:'1%'}} color="warning">{population}</Badge>
+      )
+    })
+
     return (
       <Container
       style = {{
@@ -14,6 +20,8 @@ const SearchResults = (props) => {
       <Row>
         <Col>
         <h3>{props.result.program_name}</h3>
+        <Badge style={{marginRight:'1%'}} color="secondary">{props.result.program_category}</Badge>
+        { populationServed }
         <p>{props.result.program_description.replace(/&nbsp;/g,' ').trim()}</p>
         </Col>
 

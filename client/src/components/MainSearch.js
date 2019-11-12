@@ -6,29 +6,32 @@ import SearchComboBox from './SearchComboBox';
 
 import Background from '../media/bw-nyc-skyline.jpeg';
 const ageGroups = [
-  { value: 'everyone', label: 'Adult'},
-  { value : 'students', label: 'Student'},
+  { value: 'Everyone', label: 'Adult'},
+  { value : 'Students', label: 'Student'},
   { value: 'parents', label: 'Parent' },
-  { value: 'Pre-teen', label: 'Pre-teenager' },
+  { value: 'Youth', label: 'Pre-teenager' },
   { value: 'Teen', label: 'Teenager' },
   { value: 'Young adult', label: 'Young adult' },
   { value: 'Veteran', label: 'Veteran'},
-  { value: 'immigrants', label: 'Immigrant'}
+  { value: 'Immigrant', label: 'Immigrant'}
 ];
 
+//Values: everyone, children (0-13), families,
+//immigrants, NYCHA residents, people with disabilities,
+//pregnant & new parents, seniors, students, youth (14+), veterans
 
 const resources = [
-  { value: 'Cash & expenses', label: 'Financial Help' },
   { value: 'Child Care', label: 'Child Care' },
   { value: 'City ID Card', label: 'City Identification' },
+  { value: 'People with Disabilities', label: 'Disability help' },
   { value: 'Education', label: 'Education programs' },
+  { value: 'Work', label: 'Employment' },
   { value: 'Enrichment', label: 'Enrichment programs' },
   { value: 'Family services', label: 'Family services' },
+  { value: 'Cash', label: 'Financial Help' },
   { value: 'Food', label: 'Food' },
   { value: 'Health', label: 'Health care' },
-  { value: 'Housing', label: 'Housing' },
-  { value: 'People with Disabilities', label: 'Disability help' },
-  { value: 'Work', label: 'Employment' },
+  { value: 'Housing', label: 'Housing' }
 ];
 
 //Values: everyone, children (0-13), families, immigrants, NYCHA residents, people with disabilities, pregnant & new parents, seniors, students, youth (14+), veterans
