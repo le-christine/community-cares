@@ -87,6 +87,8 @@ class Page extends Component {
             userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
           })
         })
+        this.getOpenData(this.constructFetchUrlFromSavedResource());
+        this.changedataFetchClicked();
       })
       .catch((err) => {console.log(err)})
       }
@@ -208,7 +210,15 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
-    .then((res) => {console.log(res)})
+    .then((res) => {
+      res.map(resource => {
+        this.setState({
+          userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
+        })
+      })
+      this.getOpenData(this.constructFetchUrlFromSavedResource());
+      this.changedataFetchClicked();
+    })
     .catch((err) => {console.log(err)})
   }
 
@@ -226,6 +236,7 @@ class Page extends Component {
   changedataFetchClicked = () => {
     this.setState({ dataFetchClicked : true })
     this.myRef.current.scrollIntoView({behavior: "smooth"});
+
   }
 
   handleLogInClick = () => {
@@ -292,7 +303,7 @@ class Page extends Component {
           handleLoggedIn = {() => this.handleLoggedIn()}
           handleLogInClick = {() => this.handleLogInClick()}
           handleSignUpClick = {() => this.handleSignUpClick()}
-          getUserSavedResources = {() => {this.getOpenData(this.constructFetchUrlFromSavedResource()); this.changedataFetchClicked()}}/>
+          getUserSavedResources = {() => this.getUserSavedResources()}/>
         <MainSearch
           ageValue = {this.state.ageQuery}
           programValue = {this.state.programQuery}

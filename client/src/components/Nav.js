@@ -9,14 +9,20 @@ const TopNav = (props) => {
           backgroundColor:'#FBC02D',
           display: 'flex',
           justifyContent: 'space-between'}}>
-        <NavLink disabled href="#" style={{color:'gray', fontSize: '25px', textShadow: '1px 1px #fff'}}><b>Community Cares</b></NavLink>
+        <NavLink disabled href="#" style={{color:'#353535', fontSize: '25px', textShadow: '1px 1px #fff'}}><b>Community Cares</b></NavLink>
         <div style={{display: 'flex'}}>
         <div style={{padding:'.5rem', margin: 'auto 0'}} className="fb-share-button" data-href="http://community-cares-deploy.s3-website-us-east-1.amazonaws.com/" data-layout="button" data-size="large"><a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fcommunity-cares-deploy.s3-website-us-east-1.amazonaws.com%2F&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Share</a></div>
         {props.loggedInStatus ?
+          <div style={{display: 'flex', alignItems: 'center'}}>
         <NavLink
           href="#"
           onClick = {props.getUserSavedResources}>
           View saved resources</NavLink>
+        <NavLink
+          onClick= {() => {localStorage.clear(); props.handleLoggedIn();}}
+          href="#">
+          Log out</NavLink>
+          </div>
         :
         <div
           style = {{
