@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Spinner, Jumbotron } from 'reactstrap';
+import scrollToComponent from 'react-scroll-to-component';
+
 
 
 // Custom components
@@ -16,6 +18,7 @@ import examples from '../data/examples';
 class Page extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
 
     this.state = {
       user: {
@@ -105,6 +108,7 @@ class Page extends Component {
         user: { ...this.state.user, res}
         })
       this.handleLoggedIn();
+      localStorage.setItem('userToken', res.token)
     })
     .catch((err) => {
       console.log(err);
@@ -133,6 +137,7 @@ class Page extends Component {
         user: { ...this.state.user, res}
         })
       this.handleLoggedIn();
+      localStorage.setItem('userToken', res.token);
     })
     .catch((err) => {
       console.log(err);
@@ -148,6 +153,7 @@ class Page extends Component {
     fetch('/resource/add', {
       method: 'POST',
       headers: {
+        'Authorization': 'Bearer ' + this.state.user.res.token,
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
@@ -201,6 +207,7 @@ class Page extends Component {
 
   changedataFetchClicked = () => {
     this.setState({ dataFetchClicked : true })
+    this.myRef.current.scrollIntoView({behavior: "smooth"});
   }
 
   handleLogInClick = () => {
@@ -307,6 +314,7 @@ class Page extends Component {
             onClick={() => {this.getOpenData(query.fetchUrl); this.changedataFetchClicked()}}/>
         )}
         </Row>
+        <div ref={this.myRef}></div>
         {this.state.dataFetchClicked ?
           <Jumbotron
             style = {{marginBottom:'0'}}>
