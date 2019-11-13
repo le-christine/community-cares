@@ -5,7 +5,7 @@ import { Container, Row, Col, Button, Badge } from 'reactstrap';
 const SearchResults = (props) => {
     const populationServed = props.result.population_served.split(',').map((population, index) => {
       return (
-        <Badge style={{marginRight:'1%'}} color="warning">{population}</Badge>
+        <Badge key = {index} style={{marginRight:'1%'}} color="warning">{population}</Badge>
       )
     })
 
@@ -56,7 +56,7 @@ const SearchResults = (props) => {
               <i className="fas fa-arrow-right"></i>
               </Button></a>
           }
-
+          {!props.userSavedResults.includes(`\"${props.result.unique_id_number}\"`, 0) ?
           <Button
             onClick = {(e) => {
               props.addResourceToDb(props.result.unique_id_number,props.result.program_category);
@@ -67,8 +67,19 @@ const SearchResults = (props) => {
             width: '3em',
             borderRadius: '50%'}}>
             <i className="fas fa-plus"></i>
-            </Button>
-
+            </Button> :
+            <Button
+              onClick = {(e) => {
+                props.deleteResourceToUser(props.result.unique_id_number, props.result.program_category);
+              }}
+              color="secondary"
+              style={{
+              height: '3em',
+              width: '3em',
+              borderRadius: '50%'}}>
+              <i className="fas fa-minus"></i>
+              </Button>
+          }
         </div>
       </Row>
 
