@@ -82,14 +82,14 @@ class Page extends Component {
         return res.json();
       })
       .then((res) => {
+        this.setState({userSavedResults: []})
         res.map(resource => {
           this.setState({
             userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
           })
         })
-        this.getOpenData(this.constructFetchUrlFromSavedResource());
-        this.changedataFetchClicked();
       })
+      // .then((res) => {console.log(res)})
       .catch((err) => {console.log(err)})
       }
   }
@@ -163,6 +163,7 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
+    .then((res) => {console.log(res)})
     .then((res) => {this.saveResourceToUser(uniqueIdNumber, programCategory)})
     .catch((err) => {console.log(err)})
   } else {
@@ -188,6 +189,7 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
+    .then((res) => {this.getUserSavedResources()})
     .catch((err) => {console.log(err)})
   }
 
@@ -210,15 +212,7 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
-    .then((res) => {
-      res.map(resource => {
-        this.setState({
-          userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
-        })
-      })
-      this.getOpenData(this.constructFetchUrlFromSavedResource());
-      this.changedataFetchClicked();
-    })
+    .then((res) => {this.getUserSavedResources()})
     .catch((err) => {console.log(err)})
   }
 
@@ -303,7 +297,7 @@ class Page extends Component {
           handleLoggedIn = {() => this.handleLoggedIn()}
           handleLogInClick = {() => this.handleLogInClick()}
           handleSignUpClick = {() => this.handleSignUpClick()}
-          getUserSavedResources = {() => this.getUserSavedResources()}/>
+          getUserSavedResources = {() => {        this.getOpenData(this.constructFetchUrlFromSavedResource());this.changedataFetchClicked();}}/>
         <MainSearch
           ageValue = {this.state.ageQuery}
           programValue = {this.state.programQuery}
