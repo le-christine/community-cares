@@ -42,8 +42,9 @@ public class User {
     public List<ResourceQuery> addResourcesToList (ResourceQuery resource){
         if(resources == null)
             resources = new ArrayList<ResourceQuery>();
-        resources.add(resource);
-
+        if (!resources.contains(resource)) {
+            resources.add(resource);
+        }
         return resources;
     }
 

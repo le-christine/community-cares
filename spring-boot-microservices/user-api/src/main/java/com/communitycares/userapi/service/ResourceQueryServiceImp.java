@@ -13,7 +13,12 @@ public class ResourceQueryServiceImp implements ResourceQueryService {
 
     @Override
     public ResourceQuery addResource(ResourceQuery newResource) {
-        return resourceQueryRepository.save(newResource);
+        ResourceQuery rq = resourceQueryRepository.findByUniqueIdNumberAndAndProgramCategory(newResource.getUniqueIdNumber(), newResource.getProgramCategory());
+        if (rq != null) {
+            return rq;
+        } else {
+            return resourceQueryRepository.save(newResource);
+        }
     }
 
     @Override

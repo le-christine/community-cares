@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Spinner, Jumbotron } from 'reactstrap';
 
-
 // Custom components
 import TopNav from './Nav';
 import ExampleSearch from './ExampleSearch';
@@ -16,6 +15,7 @@ import examples from '../data/examples';
 class Page extends Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
 
     this.state = {
       user: {
@@ -37,6 +37,12 @@ class Page extends Component {
       programQuery: {}
     }
   }
+
+  componentDidMount() {
+    this.handleLoggedIn();
+    this.getUserSavedResources();
+  }
+
 
   getOpenData = (fetchUrl) => {
     fetch(fetchUrl)
@@ -65,25 +71,27 @@ class Page extends Component {
   }
 
   getUserSavedResources = () => {
-    fetch('/user/resources/list', {
-      headers: {
-        'Authorization': 'Bearer ' + this.state.user.res.token,
-        'Content-Type' : 'application/json'
-      }
-    })
-    .then((res) => {
-      return res.json();
-    })
-    .then((res) => {
-      res.map(resource => {
-        this.setState({
-          userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
+    if (localStorage.getItem('userToken') !== null && localStorage.getItem('userToken') !== "undefined") {
+      fetch('/user/resources/list', {
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
+          'Content-Type' : 'application/json'
+        }
+      })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        this.setState({userSavedResults: []})
+        res.map(resource => {
+          this.setState({
+            userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
+          })
         })
       })
-      this.getOpenData(this.constructFetchUrlFromSavedResource());
-      this.changedataFetchClicked();
-    })
-    .catch((err) => {console.log(err)})
+      // .then((res) => {console.log(res)})
+      .catch((err) => {console.log(err)})
+      }
   }
 
   logIntoApp = () => {
@@ -101,9 +109,7 @@ class Page extends Component {
       return res.json();
     })
     .then((res) => {
-      this.setState({
-        user: { ...this.state.user, res}
-        })
+      localStorage.setItem('userToken', res.token)
       this.handleLoggedIn();
     })
     .catch((err) => {
@@ -129,9 +135,7 @@ class Page extends Component {
       return res.json();
     })
     .then((res) => {
-      this.setState({
-        user: { ...this.state.user, res}
-        })
+      localStorage.setItem('userToken', res.token)
       this.handleLoggedIn();
     })
     .catch((err) => {
@@ -148,6 +152,7 @@ class Page extends Component {
     fetch('/resource/add', {
       method: 'POST',
       headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
@@ -158,13 +163,12 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
+    .then((res) => {console.log(res)})
     .then((res) => {this.saveResourceToUser(uniqueIdNumber, programCategory)})
     .catch((err) => {console.log(err)})
   } else {
     alert('You must be logged in to do this.');}
   }
-
-
 
   saveResourceToUser = (uniqueIdNumber, programCategory) => {
     console.log('add resource to user triggered');
@@ -174,7 +178,7 @@ class Page extends Component {
     fetch('/user/add', {
       method: 'PUT',
       headers: {
-        'Authorization': 'Bearer ' + this.state.user.res.token,
+        'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
@@ -185,6 +189,30 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
+    .then((res) => {this.getUserSavedResources()})
+    .catch((err) => {console.log(err)})
+  }
+
+  deleteResourceToUser = (uniqueIdNumber, programCategory) => {
+    console.log('delete resource to user triggered');
+    const apiName = "Benefits and Programs API";
+    const apiResourceJson = "kvhd-5fmu.json";
+
+    fetch('/user/delete', {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        apiName: apiName,
+        apiResourceJson: apiResourceJson,
+        uniqueIdNumber: uniqueIdNumber,
+        programCategory: programCategory
+      })
+    })
+    .then((res) => {return res.json()})
+    .then((res) => {this.getUserSavedResources()})
     .catch((err) => {console.log(err)})
   }
 
@@ -194,13 +222,15 @@ class Page extends Component {
   }
 
   handleLoggedIn = () => {
-    this.state.user.res.token !== null && this.state.user.res.error !== "IM Used"?
+    localStorage.getItem('userToken') !== null && localStorage.getItem('userToken') !== "undefined" ?
     this.setState({loggedIn: true}) :
     this.setState({loggedIn: false})
   }
 
   changedataFetchClicked = () => {
     this.setState({ dataFetchClicked : true })
+    this.myRef.current.scrollIntoView({behavior: "smooth"});
+
   }
 
   handleLogInClick = () => {
@@ -264,9 +294,10 @@ class Page extends Component {
       <div>
         <TopNav
           loggedInStatus = {this.state.loggedIn}
+          handleLoggedIn = {() => this.handleLoggedIn()}
           handleLogInClick = {() => this.handleLogInClick()}
           handleSignUpClick = {() => this.handleSignUpClick()}
-          getUserSavedResources = {() => this.getUserSavedResources()}/>
+          getUserSavedResources = {() => {        this.getOpenData(this.constructFetchUrlFromSavedResource());this.changedataFetchClicked();}}/>
         <MainSearch
           ageValue = {this.state.ageQuery}
           programValue = {this.state.programQuery}
@@ -307,6 +338,7 @@ class Page extends Component {
             onClick={() => {this.getOpenData(query.fetchUrl); this.changedataFetchClicked()}}/>
         )}
         </Row>
+        <div ref={this.myRef}></div>
         {this.state.dataFetchClicked ?
           <Jumbotron
             style = {{marginBottom:'0'}}>
@@ -315,9 +347,11 @@ class Page extends Component {
             this.state.apiResults.map((result, index) => {
               return (
               <SearchResults
+                userSavedResults = {this.state.userSavedResults}
                 key = {index}
                 result={result}
                 addResourceToDb = {this.addResourceToDb}
+                deleteResourceToUser = {this.deleteResourceToUser}
                 loggedInStatus = {this.state.loggedIn}/>
               )
             }) :
