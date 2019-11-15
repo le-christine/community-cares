@@ -8,17 +8,16 @@ import Background from '../media/bw-nyc-skyline.jpeg';
 const ageGroups = [
   { value: 'Everyone', label: 'Adult'},
   { value : 'Students', label: 'Student'},
-  { value: 'parents', label: 'Parent' },
+  { value: 'Pregnant', label: 'Parent' },
   { value: 'Youth', label: 'Pre-teenager' },
   { value: 'Teen', label: 'Teenager' },
-  { value: 'Young adult', label: 'Young adult' },
+  { value: 'Young Adult', label: 'Young adult' },
   { value: 'Veteran', label: 'Veteran'},
   { value: 'Immigrant', label: 'Immigrant'}
 ];
 
-//Values: everyone, children (0-13), families,
-//immigrants, NYCHA residents, people with disabilities,
-//pregnant & new parents, seniors, students, youth (14+), veterans
+//Values: everyone, children (0-13), families, immigrants, NYCHA residents, people with disabilities, pregnant & new parents, seniors, students, youth (14+), veterans
+//Values: everyone, caregiver, baby, toddler, pre-schooler, grade-schooler, pre-teen, teen, young adult
 
 const resources = [
   { value: 'Child Care', label: 'Child Care' },
@@ -27,15 +26,13 @@ const resources = [
   { value: 'Education', label: 'Education programs' },
   { value: 'Work', label: 'Employment' },
   { value: 'Enrichment', label: 'Enrichment programs' },
-  { value: 'Family services', label: 'Family services' },
+  { value: 'Family Services', label: 'Family services' },
   { value: 'Cash', label: 'Financial Help' },
   { value: 'Food', label: 'Food' },
   { value: 'Health', label: 'Health care' },
   { value: 'Housing', label: 'Housing' }
 ];
 
-//Values: everyone, children (0-13), families, immigrants, NYCHA residents, people with disabilities, pregnant & new parents, seniors, students, youth (14+), veterans
-//Values: everyone, caregiver, baby, toddler, pre-schooler, grade-schooler, pre-teen, teen, young adult
 
 
 const MainSearch = (props) => {
