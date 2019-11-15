@@ -45,6 +45,7 @@ class Page extends Component {
 
 
   getOpenData = (fetchUrl) => {
+    if (fetchUrl !== null) {
     fetch(fetchUrl)
     .then(res => res.json())
     .then((res) => {
@@ -63,6 +64,7 @@ class Page extends Component {
       console.log(err);
     })
   }
+}
 
   constructFetchUrlFromSavedResource = () => {
     return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=unique_id_number%20in%20(${this.state.userSavedResults.toString()})`
@@ -74,13 +76,16 @@ class Page extends Component {
         return 'https://data.cityofnewyork.us/resource/kvhd-5fmu.json?program_category=Child%20Care'
       } else {
       return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.programQuery.selectedOption.value}%27AND%20(population_served%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27%20or%20population_served%20like%20%27Everyone%27or%20age_group%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27)`
+      }
     }
-    } else { alert('Select search options.')}
+    else {
+      alert('Select search options.');
+      return null;}
   }
 
   getUserSavedResources = () => {
     if (localStorage.getItem('userToken') !== null && localStorage.getItem('userToken') !== "undefined") {
-      fetch('/user/resources/list', {
+      fetch('http://3.91.249.13:8081/user/resources/list', {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
           'Content-Type' : 'application/json'
@@ -103,7 +108,7 @@ class Page extends Component {
   }
 
   logIntoApp = () => {
-    fetch('/user/login', {
+    fetch('http://3.91.249.13:8081/user/login', {
       method: 'POST',
       headers : {
         'Content-Type' : 'application/json'
@@ -126,7 +131,7 @@ class Page extends Component {
   }
 
   signUp = () => {
-    fetch('/user/signup/', {
+    fetch('http://3.91.249.13:8081/user/signup/', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
@@ -157,7 +162,7 @@ class Page extends Component {
     const apiResourceJson = "kvhd-5fmu.json";
 
     if (this.state.loggedIn) {
-    fetch('/resource/add', {
+    fetch('http://3.91.249.13:8081/resource/add', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
@@ -183,7 +188,7 @@ class Page extends Component {
     const apiName = "Benefits and Programs API";
     const apiResourceJson = "kvhd-5fmu.json";
 
-    fetch('/user/add', {
+    fetch('http://3.91.249.13:8081/user/add', {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
@@ -209,7 +214,7 @@ class Page extends Component {
     const apiName = "Benefits and Programs API";
     const apiResourceJson = "kvhd-5fmu.json";
 
-    fetch('/user/delete', {
+    fetch('http://3.91.249.13:8081/user/delete', {
       method: 'DELETE',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
@@ -232,7 +237,6 @@ class Page extends Component {
 
   fetchCustomQuery = () => {
     this.getOpenData(this.constructCustomFetchUrl());
-    this.changedataFetchClicked();
     console.log(this.constructCustomFetchUrl());
   }
 

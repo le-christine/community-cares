@@ -22,7 +22,7 @@ const LogInModal = (props) => {
         value={props.username}
         onChange={props.handleUsernameChange} />
         <Input
-          type="text"
+          type="password"
           placeholder="Password"
           value={props.password}
           onChange={props.handlePasswordChange}

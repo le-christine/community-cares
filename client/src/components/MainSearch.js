@@ -6,7 +6,7 @@ import SearchComboBox from './SearchComboBox';
 
 import Background from '../media/bw-nyc-skyline.jpeg';
 const ageGroups = [
-  { value: 'Everyone', label: 'Adult'},
+  { value: 'Adult', label: 'Adult'},
   { value : 'Students', label: 'Student'},
   { value: 'Pregnant', label: 'Parent' },
   { value: 'Youth', label: 'Pre-teenager' },
