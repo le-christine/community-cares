@@ -48,11 +48,15 @@ class Page extends Component {
     fetch(fetchUrl)
     .then(res => res.json())
     .then((res) => {
-      console.log(res);
-      this.setState({
-        dataFetchStatus: true,
-        apiResults: res
-      })
+      if (res.error) {
+        alert('You have no saved resources. Add one and try again!')
+      } else {
+        this.setState({
+          dataFetchStatus: true,
+          apiResults: res
+        })
+        this.changedataFetchClicked();
+      }
     })
     .catch((err) => {
       this.setState({ dataFetchError: true});
@@ -66,7 +70,11 @@ class Page extends Component {
 
   constructCustomFetchUrl = () => {
     if (this.state.programQuery.selectedOption && this.state.ageQuery.selectedOption) {
-      return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.programQuery.selectedOption.value}%27AND%20(population_served%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27%20or%20population_served%20like%20%27Everyone%27)`
+      if (this.state.programQuery.selectedOption.value === "Child Care") {
+        return 'https://data.cityofnewyork.us/resource/kvhd-5fmu.json?program_category=Child%20Care'
+      } else {
+      return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=program_category%20like%20%27${this.state.programQuery.selectedOption.value}%27AND%20(population_served%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27%20or%20population_served%20like%20%27Everyone%27or%20age_group%20like%20%27%25${this.state.ageQuery.selectedOption.value}%25%27)`
+    }
     } else { alert('Select search options.')}
   }
 
@@ -189,7 +197,10 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
-    .then((res) => {this.getUserSavedResources()})
+    .then((res) => {
+      this.getUserSavedResources();
+      alert('Resource successfully added.');
+    })
     .catch((err) => {console.log(err)})
   }
 
@@ -212,13 +223,17 @@ class Page extends Component {
       })
     })
     .then((res) => {return res.json()})
-    .then((res) => {this.getUserSavedResources()})
+    .then((res) => {
+      this.getUserSavedResources();
+      alert('Resource successfully deleted.');
+    })
     .catch((err) => {console.log(err)})
   }
 
   fetchCustomQuery = () => {
     this.getOpenData(this.constructCustomFetchUrl());
     this.changedataFetchClicked();
+    console.log(this.constructCustomFetchUrl());
   }
 
   handleLoggedIn = () => {
@@ -297,7 +312,7 @@ class Page extends Component {
           handleLoggedIn = {() => this.handleLoggedIn()}
           handleLogInClick = {() => this.handleLogInClick()}
           handleSignUpClick = {() => this.handleSignUpClick()}
-          getUserSavedResources = {() => {        this.getOpenData(this.constructFetchUrlFromSavedResource());this.changedataFetchClicked();}}/>
+          getUserSavedResources = {() => {this.getOpenData(this.constructFetchUrlFromSavedResource())}}/>
         <MainSearch
           ageValue = {this.state.ageQuery}
           programValue = {this.state.programQuery}
