@@ -18,10 +18,6 @@ const TopNav = (props) => {
           href="#"
           onClick = {props.getUserSavedResources}>
           View saved resources</NavLink>
-        <NavLink
-          onClick= {() => {localStorage.clear(); props.handleLoggedIn();}}
-          href="#">
-          Log out</NavLink>
           </div>
         :
         <div

@@ -38,33 +38,22 @@ class Page extends Component {
     }
   }
 
-  componentDidMount() {
-    this.handleLoggedIn();
-    this.getUserSavedResources();
-  }
-
-
   getOpenData = (fetchUrl) => {
-    if (fetchUrl !== null) {
-    fetch(fetchUrl)
-    .then(res => res.json())
-    .then((res) => {
-      if (res.error) {
-        alert('You have no saved resources. Add one and try again!')
-      } else {
-        this.setState({
-          dataFetchStatus: true,
-          apiResults: res
-        })
-        this.changedataFetchClicked();
-      }
-    })
-    .catch((err) => {
-      this.setState({ dataFetchError: true});
-      console.log(err);
-    })
-  }
-}
+   fetch(fetchUrl)
+   .then(res => res.json())
+   .then((res) => {
+     console.log(res);
+     this.setState({
+       dataFetchStatus: true,
+       apiResults: res
+     })
+     this.changedataFetchClicked();
+   })
+   .catch((err) => {
+     this.setState({ dataFetchError: true});
+     console.log(err);
+   })
+ }
 
   constructFetchUrlFromSavedResource = () => {
     return `https://data.cityofnewyork.us/resource/kvhd-5fmu.json?$where=unique_id_number%20in%20(${this.state.userSavedResults.toString()})`
@@ -84,10 +73,9 @@ class Page extends Component {
   }
 
   getUserSavedResources = () => {
-    if (localStorage.getItem('userToken') !== null && localStorage.getItem('userToken') !== "undefined") {
       fetch('http://3.91.249.13:8081/user/resources/list', {
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
+          'Authorization': 'Bearer ' + this.state.user.token,
           'Content-Type' : 'application/json'
         }
       })
@@ -95,17 +83,22 @@ class Page extends Component {
         return res.json();
       })
       .then((res) => {
+        if (res.error) {
+          alert('Add a resource first.')
+        } else {
         this.setState({userSavedResults: []})
         res.map(resource => {
           this.setState({
             userSavedResults: [...this.state.userSavedResults, `\"${resource.uniqueIdNumber}\"`]
           })
         })
+        this.getOpenData(this.constructFetchUrlFromSavedResource());
+        this.changedataFetchClicked();
+        }
       })
-      // .then((res) => {console.log(res)})
       .catch((err) => {console.log(err)})
-      }
-  }
+    }
+
 
   logIntoApp = () => {
     fetch('http://3.91.249.13:8081/user/login', {
@@ -122,9 +115,12 @@ class Page extends Component {
       return res.json();
     })
     .then((res) => {
-      localStorage.setItem('userToken', res.token)
-      this.handleLoggedIn();
-    })
+     this.setState({
+       user: { ...this.state.user,
+         token: res.token}
+       })
+     this.handleLoggedIn();
+   })
     .catch((err) => {
       console.log(err);
       })
@@ -148,9 +144,12 @@ class Page extends Component {
       return res.json();
     })
     .then((res) => {
-      localStorage.setItem('userToken', res.token)
-      this.handleLoggedIn();
-    })
+     this.setState({
+       user: { ...this.state.user,
+        token: res.token}
+       })
+     this.handleLoggedIn();
+   })
     .catch((err) => {
       console.log(err);
     })
@@ -165,7 +164,7 @@ class Page extends Component {
     fetch('http://3.91.249.13:8081/resource/add', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
+        'Authorization': 'Bearer ' + this.state.user.token,
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
@@ -191,7 +190,7 @@ class Page extends Component {
     fetch('http://3.91.249.13:8081/user/add', {
       method: 'PUT',
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
+        'Authorization': 'Bearer ' + this.state.user.token,
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
@@ -217,7 +216,7 @@ class Page extends Component {
     fetch('http://3.91.249.13:8081/user/delete', {
       method: 'DELETE',
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
+        'Authorization': 'Bearer ' + this.state.user.token,
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
@@ -241,7 +240,7 @@ class Page extends Component {
   }
 
   handleLoggedIn = () => {
-    localStorage.getItem('userToken') !== null && localStorage.getItem('userToken') !== "undefined" ?
+    this.state.user.token !== null && this.state.user.error !== "IM Used"?
     this.setState({loggedIn: true}) :
     this.setState({loggedIn: false})
   }
@@ -316,7 +315,7 @@ class Page extends Component {
           handleLoggedIn = {() => this.handleLoggedIn()}
           handleLogInClick = {() => this.handleLogInClick()}
           handleSignUpClick = {() => this.handleSignUpClick()}
-          getUserSavedResources = {() => {this.getOpenData(this.constructFetchUrlFromSavedResource())}}/>
+          getUserSavedResources = {() => this.getUserSavedResources()}/>
         <MainSearch
           ageValue = {this.state.ageQuery}
           programValue = {this.state.programQuery}
